@@ -12,13 +12,19 @@ import { ExpenseNature } from 'src/app/models/expenseNature';
   styleUrls: ['./expense-modal.component.sass'],
 })
 export class ExpenseModalComponent {
+  // The current expense being edited
   expense: Expense;
+
+  // EventEmitter for saving changes and canceling edit
   @Output() saveChangesEvent = new EventEmitter<Expense>();
   @Output() cancelEditEvent = new EventEmitter<void>();
+
   constructor(
+    // Injecting data passed to the modal and DatePipe for formatting
     @Inject(MAT_DIALOG_DATA) public data: ModalData,
     private datePipe: DatePipe
   ) {
+    // Initialize the expense based on the passed data or default values
     if (data) {
       this.expense = { ...data.expense };
     } else {
@@ -26,15 +32,20 @@ export class ExpenseModalComponent {
     }
   }
 
+  // Save changes to the expense and emit the event
   saveChanges() {
+    // Update expense properties based on nature before saving
     this.updateExpensePropertiesBasedOnNature();
+    // Emit the event with the updated expense
     this.saveChangesEvent.emit(this.expense);
   }
 
+  // Cancel the editing and emit the event
   cancelEdit() {
     this.cancelEditEvent.emit();
   }
 
+  // Format the date value for the date picker
   formatDatePickerValue(date: Date): string {
     if (date) {
       return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
@@ -42,11 +53,12 @@ export class ExpenseModalComponent {
     return '';
   }
 
+  // Update expense properties based on its nature
   updateExpensePropertiesBasedOnNature() {
     if (this.expense.nature === ExpenseNature.Restaurant) {
-      delete this.expense.distance;
+      delete this.expense.distance; // Remove distance for restaurant expenses
     } else if (this.expense.nature === ExpenseNature.Trip) {
-      delete this.expense.invites;
+      delete this.expense.invites; // Remove invites for trip expenses
     }
   }
 }
