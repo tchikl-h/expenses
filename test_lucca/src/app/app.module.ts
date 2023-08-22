@@ -13,6 +13,11 @@ import { ExpensesEffects } from './store/expenses/expenses.effects';
 import { ExpenseListComponent } from './components/expense/expense-list/expense-list.component';
 import { ExpenseModalComponent } from './components/expense/expense-modal/expense-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatPaginatorModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([ExpensesEffects]),
   ],

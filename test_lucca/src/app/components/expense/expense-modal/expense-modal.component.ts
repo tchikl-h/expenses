@@ -1,16 +1,25 @@
-import { Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Expense } from 'src/app/models/expense';
 
 @Component({
   selector: 'app-expense-modal',
-  template: `
-    <h2 mat-dialog-title>Welcome</h2>
-    <mat-dialog-content> Hey, welcome {{ data.comment }}! </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-button [mat-dialog-close]="'close'">Close</button>
-    </mat-dialog-actions>
-  `,
+  templateUrl: './expense-modal.component.html',
+  styleUrls: ['./expense-modal.component.sass'],
 })
 export class ExpenseModalComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  editedExpense: Expense;
+  @Output() saveChangesEvent = new EventEmitter<Expense>();
+  @Output() cancelEditEvent = new EventEmitter<void>();
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    this.editedExpense = JSON.parse(JSON.stringify(data.editedExpense));
+  }
+
+  saveChanges() {
+    this.saveChangesEvent.emit(this.editedExpense);
+  }
+
+  cancelEdit() {
+    this.cancelEditEvent.emit();
+  }
 }

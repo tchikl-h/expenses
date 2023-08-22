@@ -1,0 +1,90 @@
+// Reset some default styles
+* 
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+// Apply a background color and spacing
+.expense-form
+  background-color: #f9f9f9
+  padding: 20px
+  border-radius: 10px
+  width: 350px
+  margin: 0 auto
+
+// Style radio buttons
+.radio-group
+  display: flex
+  gap: 10px
+
+.radio-label
+  display: flex
+  align-items: center
+  font-size: 14px
+  cursor: pointer
+
+// Style form fields
+.form-group
+  margin-bottom: 15px
+
+.form-group label
+  display: block
+  font-size: 14px
+  font-weight: bold
+  margin-bottom: 5px
+
+// Style input fields
+input[type="number"],
+input[type="text"]
+  width: 100%
+  padding: 8px
+  font-size: 14px
+  border: 1px solid #ccc
+  border-radius: 4px
+
+input[type="number"]:focus,
+input[type="text"]:focus
+  outline: none
+  border-color: #007bff
+
+// Style date picker
+.date-field
+  width: 100%
+
+// Style buttons
+.button-group
+  display: flex
+  justify-content: space-between
+  margin-top: 20px
+
+.save-button,
+.cancel-button
+  padding: 8px 20px
+  border: none
+  border-radius: 4px
+  font-size: 14px
+  cursor: pointer
+
+.save-button
+  background-color: #007bff
+  color: white
+
+.cancel-button
+  background-color: #ccc
+
+.save-button:hover,
+.cancel-button:hover
+  opacity: 0.8
+
+textarea, input[type="number"], input[type="text"]
+  width: 100%
+  padding: 10px
+  font-size: 14px
+  border: 1px solid #ccc
+  border-radius: 4px
+  transition: border-color 0.3s, box-shadow 0.3s
+
+textarea:focus, input[type="number"]:focus, input[type="text"]:focus
+  outline: none
+  border-color: #007bff
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.6)

@@ -9,14 +9,28 @@ import { ExpenseModalComponent } from '../expense-modal/expense-modal.component'
 })
 export class ExpenseListComponent {
   @Input() expenses: Expense[] | null;
+  showExpenseForm = false;
+  editedExpense: Expense;
 
   constructor(private modal: MatDialog) {}
 
   openModal(expense: Expense) {
-    this.modal.open(ExpenseModalComponent, {
+    const dialogRef = this.modal.open(ExpenseModalComponent, {
       data: {
-        comment: expense.comment,
+        editedExpense: expense,
       },
+    });
+
+    dialogRef.componentInstance.saveChangesEvent.subscribe(
+      (updatedExpense: Expense) => {
+        // Handle save changes event here
+        console.log('Updated expense:', updatedExpense);
+      }
+    );
+
+    dialogRef.componentInstance.cancelEditEvent.subscribe(() => {
+      // Handle cancel edit event here
+      console.log('Edit canceled');
     });
   }
 }
