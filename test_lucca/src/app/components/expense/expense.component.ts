@@ -1,9 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Expense } from 'src/app/models/expense';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { ExpensesFacade } from '../../store/expenses';
 import { selectExpenses } from '../../store/expenses';
+import { PageEvent } from '@angular/material/paginator';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-expense',
@@ -12,11 +14,25 @@ import { selectExpenses } from '../../store/expenses';
 })
 export class ExpenseComponent implements OnInit {
   private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
+  page$: BehaviorSubject<number> = new BehaviorSubject(0);
+  limit$: BehaviorSubject<number> = new BehaviorSubject(20);
   expenses$: Observable<Expense[]>;
+  pageAndLimit$ = combineLatest([this.page$, this.limit$]).pipe(
+    distinctUntilChanged(([prevPage, prevLimit], [newPage, newLimit]) => {
+      return prevPage === newPage && prevLimit === newLimit;
+    })
+  );
 
   constructor(private store: Store) {
-    this.expensesFacade.getAll();
+    this.pageAndLimit$.subscribe(([page, limit]) => {
+      this.expensesFacade.getAll(page, limit);
+    });
     this.expenses$ = this.store.select(selectExpenses);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.page$.next(event.pageIndex);
+    this.limit$.next(event.pageSize);
   }
 
   addExpense(): void {

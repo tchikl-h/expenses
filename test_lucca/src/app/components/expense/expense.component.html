@@ -1,4 +1,13 @@
 <div>
+  <mat-paginator
+    [length]="9999"
+    [pageSize]="limit$ | async"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageIndex]="page$ | async"
+    aria-label="Select page"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
   <div *ngIf="expenses$ | async as expenses">
     <h2>Expenses List</h2>
     <ul>
@@ -11,13 +20,17 @@
       </li>
     </ul>
   </div>
-
+  <p>Expenses Length: {{ (expenses$ | async)?.length }}</p>
+  <p>Limit: {{ limit$ | async }}</p>
+  <p>Page: {{ page$ | async }}</p>
   <!-- <ng-template #loading>Loading expenses...</ng-template> -->
   <mat-paginator
-    [length]="100"
-    [pageSize]="10"
+    [length]="9999"
+    [pageSize]="limit$ | async"
     [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageIndex]="page$ | async"
     aria-label="Select page"
+    (page)="onPageChange($event)"
   >
   </mat-paginator>
 </div>
