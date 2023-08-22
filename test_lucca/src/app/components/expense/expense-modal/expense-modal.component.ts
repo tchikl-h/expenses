@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Expense } from 'src/app/models/expense';
-import { ModalData } from '../../../models/ModalData';
+import { ModalData } from '../../../models/modalData';
 
 @Component({
   selector: 'app-expense-modal',

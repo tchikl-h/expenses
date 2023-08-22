@@ -12,7 +12,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './expense.component.html',
   styleUrls: ['./expense.component.sass'],
 })
-export class ExpenseComponent implements OnInit {
+export class ExpenseComponent {
   private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
   page$: BehaviorSubject<number> = new BehaviorSubject(0);
   limit$: BehaviorSubject<number> = new BehaviorSubject(20);
@@ -42,19 +42,7 @@ export class ExpenseComponent implements OnInit {
     }
   }
 
-  addExpense(): void {
-    // let expense: Expense = {
-    //   id: 91,
-    //   nature: ExpenseNature.Restaurant,
-    //   amount: 75,
-    //   comment: 'At nihil occaecati dix.',
-    //   purchasedOn: '2022-11-14',
-    //   invites: 1,
-    // };
-    // this.expensesFacade.updateExpense(expense);
-  }
-
-  ngOnInit(): void {
-    this.addExpense();
+  onAddButtonClick(): void {
+    console.log('onAddButtonClick');
   }
 }
