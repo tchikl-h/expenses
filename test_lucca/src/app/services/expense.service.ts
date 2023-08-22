@@ -24,7 +24,7 @@ export class ExpensesService {
   }
 
   getAllExpenses(page: number, limit: number): Observable<ExpenseDTO> {
-    const params = new HttpParams().set('page', page).set('limit', limit);
+    const params = new HttpParams().set('page', page + 1).set('limit', limit);
     return this.http.get<ExpenseDTO>(`${this.apiUrl}`, { params });
   }
 }

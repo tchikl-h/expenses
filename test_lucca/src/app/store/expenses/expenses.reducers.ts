@@ -14,7 +14,8 @@ export const expensesReducers: ActionReducer<ExpensesState> = createReducer(
   on(updateExpenseSuccess, (state: ExpensesState, action) =>
     adapter.updateOne(action.expense, state)
   ),
-  on(getAllExpensesSuccess, (state: ExpensesState, action) =>
-    adapter.setAll(action.expenses, state)
-  )
+  on(getAllExpensesSuccess, (state, { expenses, count }) => ({
+    ...adapter.setAll(expenses, state),
+    total: count,
+  }))
 );

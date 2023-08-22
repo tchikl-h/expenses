@@ -16,3 +16,8 @@ export const selectExpenses: MemoizedSelector<AppState, Expense[]> =
     ({ entities }: ExpensesState): Expense[] =>
       Object.values(entities) as Expense[]
   );
+
+export const selectTotalExpenses = createSelector(
+  selectExpensesFeature,
+  (state: ExpensesState) => state.total
+);

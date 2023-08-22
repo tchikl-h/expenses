@@ -46,7 +46,7 @@ export const getAllExpenses = createAction(
 
 export const getAllExpensesSuccess = createAction(
   GET_EXPENSES_ACTION_SUCCESS,
-  props<{ expenses: Expense[] }>()
+  props<{ expenses: Expense[]; count: number }>()
 );
 
 export const getAllExpensesError = createAction(GET_EXPENSES_ACTION_ERROR);
