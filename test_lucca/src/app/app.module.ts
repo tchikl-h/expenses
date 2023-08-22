@@ -11,14 +11,22 @@ import { expensesReducers } from './store/expenses';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExpensesEffects } from './store/expenses/expenses.effects';
 import { ExpenseListComponent } from './components/expense/expense-list/expense-list.component';
+import { ExpenseModalComponent } from './components/expense/expense-modal/expense-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, ExpenseComponent, ExpenseListComponent],
+  declarations: [
+    AppComponent,
+    ExpenseComponent,
+    ExpenseListComponent,
+    ExpenseModalComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([ExpensesEffects]),
   ],

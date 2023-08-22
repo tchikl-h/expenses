@@ -1,9 +1,14 @@
 <div class="expense-list" *ngIf="expenses">
-  <div class="expense-item" *ngFor="let expense of expenses">
+  <div
+    class="expense-item"
+    *ngFor="let expense of expenses"
+    (click)="openModal(expense)"
+    (keydown.enter)="openModal(expense)"
+    tabindex="0"
+  >
     <div class="expense-details">
       <div class="expense-header">
         <div class="expense-category">
-          <!-- Use category-specific icons here -->
           <span *ngIf="expense.nature === 'restaurant'">🍽️</span>
           <span *ngIf="expense.nature === 'trip'">✈️</span>
         </div>
