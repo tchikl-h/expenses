@@ -1,4 +1,4 @@
-<form class="expense-form">
+<form class="expense-form" #expenseForm="ngForm" (ngSubmit)="saveChanges()">
   <fieldset>
     <legend><strong>Expense Information</strong></legend>
     <div class="form-group">
@@ -39,6 +39,8 @@
           name="invites"
           placeholder="Enter number of invites"
           aria-label="Invites"
+          required
+          min="0"
         />
       </div>
     </div>
@@ -51,6 +53,8 @@
           name="distance"
           placeholder="Enter trip distance"
           aria-label="Distance"
+          required
+          min="1"
         />
       </div>
     </div>
@@ -62,6 +66,8 @@
         name="amount"
         placeholder="Enter amount"
         aria-label="Amount"
+        required
+        min="0.01"
       />
     </div>
     <div class="form-group">
@@ -82,6 +88,7 @@
         name="purchasedOn"
         (ngModelChange)="expense.purchasedOn = formatDatePickerValue($event)"
         aria-label="Purchased On"
+        required
       />
       <mat-datepicker-toggle
         matSuffix
@@ -97,6 +104,7 @@
       (click)="saveChanges()"
       class="save-button"
       aria-label="Save"
+      [disabled]="!expenseForm.valid"
     >
       Save Changes
     </button>
