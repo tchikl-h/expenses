@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Expense } from 'src/app/models/expense';
+import { ModalData } from '../../../models/ModalData';
 
 @Component({
   selector: 'app-expense-modal',
@@ -13,7 +14,7 @@ export class ExpenseModalComponent {
   @Output() saveChangesEvent = new EventEmitter<Expense>();
   @Output() cancelEditEvent = new EventEmitter<void>();
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: ModalData,
     private datePipe: DatePipe
   ) {
     this.editedExpense = JSON.parse(JSON.stringify(data.editedExpense));

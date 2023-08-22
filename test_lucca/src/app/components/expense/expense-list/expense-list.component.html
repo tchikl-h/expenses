@@ -13,8 +13,14 @@
           <span *ngIf="expense.nature === 'trip'">✈️</span>
         </div>
         <div class="expense-nature">{{ expense.nature }}</div>
+        <div class="expense-amount">$ {{ expense.amount }}</div>
       </div>
-      <div class="expense-amount">$ {{ expense.amount }}</div>
+      <div *ngIf="expense.nature === 'restaurant'" class="expense-invites">
+        <span class="label">Invites:</span> {{ expense.invites }}
+      </div>
+      <div *ngIf="expense.nature === 'trip'" class="expense-distance">
+        <span class="label">Distance:</span> {{ expense.distance }} km
+      </div>
       <div class="expense-date">{{ expense.purchasedOn | date }}</div>
       <div class="expense-comment">{{ expense.comment }}</div>
     </div>
