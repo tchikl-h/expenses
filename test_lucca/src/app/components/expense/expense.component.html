@@ -1,27 +1,35 @@
 <div class="paginator-container">
-  <button class="fab-button" (click)="onAddButtonClick()">
+  <button
+    class="fab-button"
+    (click)="onAddButtonClick()"
+    aria-label="Add Expense"
+  >
     <span class="plus-icon">+</span>
   </button>
-  <mat-paginator
-    [length]="totalExpenses$ | async"
-    [pageSize]="limit$ | async"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    [pageIndex]="page$ | async"
-    aria-label="Select page"
-    (page)="onPageChange($event)"
-  >
-  </mat-paginator>
+  <nav aria-label="Expense Pagination">
+    <mat-paginator
+      [length]="totalExpenses$ | async"
+      [pageSize]="limit$ | async"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageIndex]="page$ | async"
+      aria-label="Expense Pagination"
+      (page)="onPageChange($event)"
+    ></mat-paginator>
+  </nav>
 </div>
-<app-expense-list [expenses]="expenses$ | async"></app-expense-list>
-<!-- <ng-template #loading>Loading expenses...</ng-template> -->
+<section aria-labelledby="expenseListHeading">
+  <h2 id="expenseListHeading" class="visually-hidden">Expense List</h2>
+  <app-expense-list [expenses]="expenses$ | async"></app-expense-list>
+</section>
 <div class="paginator-container">
-  <mat-paginator
-    [length]="totalExpenses$ | async"
-    [pageSize]="limit$ | async"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    [pageIndex]="page$ | async"
-    aria-label="Select page"
-    (page)="onPageChange($event)"
-  >
-  </mat-paginator>
+  <nav aria-label="Expense Pagination">
+    <mat-paginator
+      [length]="totalExpenses$ | async"
+      [pageSize]="limit$ | async"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageIndex]="page$ | async"
+      aria-label="Expense Pagination"
+      (page)="onPageChange($event)"
+    ></mat-paginator>
+  </nav>
 </div>

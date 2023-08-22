@@ -13,14 +13,14 @@ export class ExpenseListComponent {
   private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
   @Input() expenses: Expense[] | null;
   showExpenseForm = false;
-  editedExpense: Expense;
+  expense: Expense;
 
   constructor(private modal: MatDialog) {}
 
   openModal(expense: Expense) {
     const dialogRef = this.modal.open(ExpenseModalComponent, {
       data: {
-        editedExpense: expense,
+        expense,
       },
     });
 
