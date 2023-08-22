@@ -39,11 +39,14 @@ export const updateExpenseSuccess = createAction(
 
 export const updateExpenseError = createAction(UPDATE_EXPENSE_ACTION_ERROR);
 
-export const getAllExpenses = createAction(GET_EXPENSES_ACTION);
+export const getAllExpenses = createAction(
+  GET_EXPENSES_ACTION,
+  props<{ page: number; limit: number }>()
+);
 
 export const getAllExpensesSuccess = createAction(
   GET_EXPENSES_ACTION_SUCCESS,
-  props<{ expenses: Expense[] }>()
+  props<{ expenses: Expense[]; count: number }>()
 );
 
 export const getAllExpensesError = createAction(GET_EXPENSES_ACTION_ERROR);

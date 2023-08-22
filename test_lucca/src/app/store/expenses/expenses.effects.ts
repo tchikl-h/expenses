@@ -61,9 +61,14 @@ export class ExpensesEffects {
   getAllExpense$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getAllExpenses),
-      mergeMap(() =>
-        this.expensesService.getAllExpenses().pipe(
-          map((payload) => getAllExpensesSuccess({ expenses: payload.items })),
+      mergeMap(({ page, limit }) =>
+        this.expensesService.getAllExpenses(page, limit).pipe(
+          map((payload) =>
+            getAllExpensesSuccess({
+              expenses: payload.items,
+              count: payload.count,
+            })
+          ),
           catchError(() => [getAllExpensesError()])
         )
       )

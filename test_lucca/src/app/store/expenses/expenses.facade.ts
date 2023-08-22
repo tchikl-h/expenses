@@ -19,7 +19,7 @@ export class ExpensesFacade {
     this.store.dispatch(updateExpense({ expense }));
   }
 
-  getAll(): void {
-    this.store.dispatch(getAllExpenses());
+  getAll(page: number, limit: number): void {
+    this.store.dispatch(getAllExpenses({ page, limit }));
   }
 }

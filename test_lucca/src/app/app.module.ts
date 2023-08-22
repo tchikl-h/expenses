@@ -10,9 +10,10 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { expensesReducers } from './store/expenses';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExpensesEffects } from './store/expenses/expenses.effects';
+import { ExpenseListComponent } from './components/expense/expense-list/expense-list.component';
 
 @NgModule({
-  declarations: [AppComponent, ExpenseComponent],
+  declarations: [AppComponent, ExpenseComponent, ExpenseListComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

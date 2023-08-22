@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Expense, ExpenseDTO } from '../models/expense';
 
@@ -23,7 +23,8 @@ export class ExpensesService {
     });
   }
 
-  getAllExpenses(): Observable<ExpenseDTO> {
-    return this.http.get<ExpenseDTO>(`${this.apiUrl}`);
+  getAllExpenses(page: number, limit: number): Observable<ExpenseDTO> {
+    const params = new HttpParams().set('page', page + 1).set('limit', limit);
+    return this.http.get<ExpenseDTO>(`${this.apiUrl}`, { params });
   }
 }

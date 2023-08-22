@@ -1,23 +1,24 @@
-<div>
-  <div *ngIf="expenses$ | async as expenses">
-    <h2>Expenses List</h2>
-    <ul>
-      <li *ngFor="let expense of expenses">
-        <div><strong>id:</strong> {{ expense.id }}</div>
-        <div><strong>comment:</strong> {{ expense.comment }}</div>
-        <div><strong>Amount:</strong> {{ expense.amount | currency }}</div>
-        <div><strong>Purchased On:</strong> {{ expense.purchasedOn }}</div>
-        <!-- Add other expense properties you want to display -->
-      </li>
-    </ul>
-  </div>
-
-  <!-- <ng-template #loading>Loading expenses...</ng-template> -->
+<div class="paginator-container">
   <mat-paginator
-    [length]="100"
-    [pageSize]="10"
+    [length]="totalExpenses$ | async"
+    [pageSize]="limit$ | async"
     [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageIndex]="page$ | async"
     aria-label="Select page"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>
+<app-expense-list [expenses]="expenses$ | async"></app-expense-list>
+<!-- <ng-template #loading>Loading expenses...</ng-template> -->
+<div class="paginator-container">
+  <mat-paginator
+    [length]="totalExpenses$ | async"
+    [pageSize]="limit$ | async"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageIndex]="page$ | async"
+    aria-label="Select page"
+    (page)="onPageChange($event)"
   >
   </mat-paginator>
 </div>
