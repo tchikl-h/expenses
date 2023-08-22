@@ -5,7 +5,7 @@
       <label class="radio-label">
         <input
           type="radio"
-          [(ngModel)]="editedExpense.nature"
+          [(ngModel)]="expense.nature"
           name="nature"
           value="restaurant"
         />
@@ -14,7 +14,7 @@
       <label class="radio-label">
         <input
           type="radio"
-          [(ngModel)]="editedExpense.nature"
+          [(ngModel)]="expense.nature"
           name="nature"
           value="trip"
         />
@@ -22,23 +22,23 @@
       </label>
     </div>
   </div>
-  <div class="conditional-fields" *ngIf="editedExpense.nature === 'restaurant'">
+  <div class="conditional-fields" *ngIf="expense.nature === 'restaurant'">
     <div class="form-group">
       <label for="invites">Number of Invites</label>
       <input
         type="number"
-        [(ngModel)]="editedExpense.invites"
+        [(ngModel)]="expense.invites"
         name="invites"
         placeholder="Enter number of invites"
       />
     </div>
   </div>
-  <div class="conditional-fields" *ngIf="editedExpense.nature === 'trip'">
+  <div class="conditional-fields" *ngIf="expense.nature === 'trip'">
     <div class="form-group">
       <label for="distance">Trip Distance (in km)</label>
       <input
         type="number"
-        [(ngModel)]="editedExpense.distance"
+        [(ngModel)]="expense.distance"
         name="distance"
         placeholder="Enter trip distance"
       />
@@ -48,7 +48,7 @@
     <label for="amount">Amount</label>
     <input
       type="number"
-      [(ngModel)]="editedExpense.amount"
+      [(ngModel)]="expense.amount"
       name="amount"
       placeholder="Enter amount"
     />
@@ -56,7 +56,7 @@
   <div class="form-group">
     <label for="comment">Comment</label>
     <textarea
-      [(ngModel)]="editedExpense.comment"
+      [(ngModel)]="expense.comment"
       name="comment"
       placeholder="Add a detailed comment about the expense..."
     ></textarea>
@@ -66,11 +66,9 @@
     <input
       matInput
       [matDatepicker]="purchasedDatePicker"
-      [(ngModel)]="editedExpense.purchasedOn"
+      [(ngModel)]="expense.purchasedOn"
       name="purchasedOn"
-      (ngModelChange)="
-        editedExpense.purchasedOn = formatDatePickerValue($event)
-      "
+      (ngModelChange)="expense.purchasedOn = formatDatePickerValue($event)"
     />
     <mat-datepicker-toggle
       matSuffix

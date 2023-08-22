@@ -6,6 +6,8 @@ import { ExpensesFacade, selectTotalExpenses } from '../../store/expenses';
 import { selectExpenses } from '../../store/expenses';
 import { PageEvent } from '@angular/material/paginator';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 
 @Component({
   selector: 'app-expense',
@@ -24,7 +26,7 @@ export class ExpenseComponent {
     })
   );
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private modal: MatDialog) {
     this.pageAndLimit$.subscribe(([page, limit]) => {
       this.expensesFacade.getAll(page, limit);
     });
@@ -44,5 +46,21 @@ export class ExpenseComponent {
 
   onAddButtonClick(): void {
     console.log('onAddButtonClick');
+    this.openModal();
+  }
+
+  openModal() {
+    const dialogRef = this.modal.open(ExpenseModalComponent);
+
+    dialogRef.componentInstance.saveChangesEvent.subscribe(
+      (newExpense: Expense) => {
+        this.expensesFacade.addExpense(newExpense);
+        this.modal.closeAll();
+      }
+    );
+
+    dialogRef.componentInstance.cancelEditEvent.subscribe(() => {
+      this.modal.closeAll();
+    });
   }
 }
