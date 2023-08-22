@@ -1,88 +1,111 @@
 <form class="expense-form">
-  <div class="form-group">
-    <label for="nature">Expense Nature</label>
-    <div class="radio-group">
-      <label class="radio-label">
-        <input
-          type="radio"
-          [(ngModel)]="editedExpense.nature"
-          name="nature"
-          value="restaurant"
-        />
-        🍽️Restaurant
-      </label>
-      <label class="radio-label">
-        <input
-          type="radio"
-          [(ngModel)]="editedExpense.nature"
-          name="nature"
-          value="trip"
-        />
-        ✈️Trip
-      </label>
-    </div>
-  </div>
-  <div class="conditional-fields" *ngIf="editedExpense.nature === 'restaurant'">
+  <fieldset>
+    <legend><strong>Expense Information</strong></legend>
     <div class="form-group">
-      <label for="invites">Number of Invites</label>
+      <label for="nature">Expense Nature</label>
+      <div class="radio-group">
+        <label class="radio-label" for="restaurant">
+          <input
+            type="radio"
+            [(ngModel)]="expense.nature"
+            name="nature"
+            id="restaurant"
+            value="restaurant"
+            aria-labelledby="restaurant-label"
+          />
+          <span role="presentation" aria-hidden="true">🍽️</span>
+          <span class="sr-only" id="restaurant-label">Restaurant</span>
+        </label>
+        <label class="radio-label" for="trip">
+          <input
+            type="radio"
+            [(ngModel)]="expense.nature"
+            name="nature"
+            id="trip"
+            value="trip"
+            aria-labelledby="trip-label"
+          />
+          <span role="presentation" aria-hidden="true">✈️</span>
+          <span class="sr-only" id="trip-label">Trip</span>
+        </label>
+      </div>
+    </div>
+    <div class="conditional-fields" *ngIf="expense.nature === 'restaurant'">
+      <div class="form-group">
+        <label for="invites">Number of Invites</label>
+        <input
+          type="number"
+          [(ngModel)]="expense.invites"
+          name="invites"
+          placeholder="Enter number of invites"
+          aria-label="Invites"
+        />
+      </div>
+    </div>
+    <div class="conditional-fields" *ngIf="expense.nature === 'trip'">
+      <div class="form-group">
+        <label for="distance">Trip Distance (in km)</label>
+        <input
+          type="number"
+          [(ngModel)]="expense.distance"
+          name="distance"
+          placeholder="Enter trip distance"
+          aria-label="Distance"
+        />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount</label>
       <input
         type="number"
-        [(ngModel)]="editedExpense.invites"
-        name="invites"
-        placeholder="Enter number of invites"
+        [(ngModel)]="expense.amount"
+        name="amount"
+        placeholder="Enter amount"
+        aria-label="Amount"
       />
     </div>
-  </div>
-  <div class="conditional-fields" *ngIf="editedExpense.nature === 'trip'">
     <div class="form-group">
-      <label for="distance">Trip Distance (in km)</label>
-      <input
-        type="number"
-        [(ngModel)]="editedExpense.distance"
-        name="distance"
-        placeholder="Enter trip distance"
-      />
+      <label for="comment">Comment</label>
+      <textarea
+        [(ngModel)]="expense.comment"
+        name="comment"
+        placeholder="Add a detailed comment about the expense..."
+        aria-label="Comment"
+      ></textarea>
     </div>
-  </div>
-  <div class="form-group">
-    <label for="amount">Amount</label>
-    <input
-      type="number"
-      [(ngModel)]="editedExpense.amount"
-      name="amount"
-      placeholder="Enter amount"
-    />
-  </div>
-  <div class="form-group">
-    <label for="comment">Comment</label>
-    <textarea
-      [(ngModel)]="editedExpense.comment"
-      name="comment"
-      placeholder="Add a detailed comment about the expense..."
-    ></textarea>
-  </div>
-  <mat-form-field class="date-field">
-    <mat-label>Purchased On</mat-label>
-    <input
-      matInput
-      [matDatepicker]="purchasedDatePicker"
-      [(ngModel)]="editedExpense.purchasedOn"
-      name="purchasedOn"
-      (ngModelChange)="
-        editedExpense.purchasedOn = formatDatePickerValue($event)
-      "
-    />
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="purchasedDatePicker"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #purchasedDatePicker></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field class="date-field">
+      <mat-label for="purchasedOn">Purchased On</mat-label>
+      <input
+        matInput
+        [matDatepicker]="purchasedDatePicker"
+        [(ngModel)]="expense.purchasedOn"
+        name="purchasedOn"
+        (ngModelChange)="expense.purchasedOn = formatDatePickerValue($event)"
+        aria-label="Purchased On"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="purchasedDatePicker"
+        aria-label="Toggle Datepicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #purchasedDatePicker></mat-datepicker>
+    </mat-form-field>
+  </fieldset>
   <div class="button-group">
-    <button type="button" (click)="saveChanges()" class="save-button">
+    <button
+      type="button"
+      (click)="saveChanges()"
+      class="save-button"
+      aria-label="Save"
+    >
       Save Changes
     </button>
-    <button type="button" (click)="cancelEdit()" class="cancel-button">
+    <button
+      type="button"
+      (click)="cancelEdit()"
+      class="cancel-button"
+      aria-label="Cancel"
+    >
       Cancel
     </button>
   </div>

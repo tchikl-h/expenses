@@ -1,22 +1,52 @@
-<div class="expense-list" *ngIf="expenses">
-  <div
+<ul class="expense-list" *ngIf="expenses">
+  <li
     class="expense-item"
     *ngFor="let expense of expenses"
     (click)="openModal(expense)"
     (keydown.enter)="openModal(expense)"
     tabindex="0"
+    role="button"
+    (keydown.space)="openModal(expense)"
   >
     <div class="expense-details">
       <div class="expense-header">
         <div class="expense-category">
-          <span *ngIf="expense.nature === 'restaurant'">🍽️</span>
-          <span *ngIf="expense.nature === 'trip'">✈️</span>
+          <span *ngIf="expense.nature === 'restaurant'" aria-label="Restaurant"
+            >🍽️</span
+          >
+          <span *ngIf="expense.nature === 'trip'" aria-label="Trip">✈️</span>
         </div>
         <div class="expense-nature">{{ expense.nature }}</div>
+        <div
+          class="expense-amount"
+          [attr.aria-labelledby]="'amountLabel-' + expense.id"
+        >
+          $ {{ expense.amount }}
+        </div>
       </div>
-      <div class="expense-amount">$ {{ expense.amount }}</div>
-      <div class="expense-date">{{ expense.purchasedOn | date }}</div>
+      <div
+        *ngIf="expense.nature === 'restaurant'"
+        class="expense-invites"
+        aria-label="Number of Invites"
+      >
+        <span class="label">Invites:</span> {{ expense.invites }}
+      </div>
+      <div
+        *ngIf="expense.nature === 'trip'"
+        class="expense-distance"
+        aria-label="Distance Traveled"
+      >
+        <span class="label">Distance:</span> {{ expense.distance }} km
+      </div>
+      <div
+        class="expense-date"
+        [attr.aria-label]="
+          'Purchased on ' + (expense.purchasedOn | date : 'longDate')
+        "
+      >
+        {{ expense.purchasedOn | date }}
+      </div>
       <div class="expense-comment">{{ expense.comment }}</div>
     </div>
-  </div>
-</div>
+  </li>
+</ul>

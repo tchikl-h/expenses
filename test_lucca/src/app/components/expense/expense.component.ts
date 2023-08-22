@@ -6,13 +6,15 @@ import { ExpensesFacade, selectTotalExpenses } from '../../store/expenses';
 import { selectExpenses } from '../../store/expenses';
 import { PageEvent } from '@angular/material/paginator';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 
 @Component({
   selector: 'app-expense',
   templateUrl: './expense.component.html',
   styleUrls: ['./expense.component.sass'],
 })
-export class ExpenseComponent implements OnInit {
+export class ExpenseComponent {
   private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
   page$: BehaviorSubject<number> = new BehaviorSubject(0);
   limit$: BehaviorSubject<number> = new BehaviorSubject(20);
@@ -24,7 +26,7 @@ export class ExpenseComponent implements OnInit {
     })
   );
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private modal: MatDialog) {
     this.pageAndLimit$.subscribe(([page, limit]) => {
       this.expensesFacade.getAll(page, limit);
     });
@@ -42,19 +44,23 @@ export class ExpenseComponent implements OnInit {
     }
   }
 
-  addExpense(): void {
-    // let expense: Expense = {
-    //   id: 91,
-    //   nature: ExpenseNature.Restaurant,
-    //   amount: 75,
-    //   comment: 'At nihil occaecati dix.',
-    //   purchasedOn: '2022-11-14',
-    //   invites: 1,
-    // };
-    // this.expensesFacade.updateExpense(expense);
+  onAddButtonClick(): void {
+    console.log('onAddButtonClick');
+    this.openModal();
   }
 
-  ngOnInit(): void {
-    this.addExpense();
+  openModal() {
+    const dialogRef = this.modal.open(ExpenseModalComponent);
+
+    dialogRef.componentInstance.saveChangesEvent.subscribe(
+      (newExpense: Expense) => {
+        this.expensesFacade.addExpense(newExpense);
+        this.modal.closeAll();
+      }
+    );
+
+    dialogRef.componentInstance.cancelEditEvent.subscribe(() => {
+      this.modal.closeAll();
+    });
   }
 }

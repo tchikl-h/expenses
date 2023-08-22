@@ -1,6 +1,7 @@
 .expense-list
   display: flex
   flex-direction: column
+  padding-top: 7px
 
   .expense-item
     border: 1px solid #e0e0e0
@@ -34,25 +35,27 @@
         .expense-nature 
           font-weight: bold
           font-size: 18px
-        
-      
 
       .expense-amount 
         color: #28a745
         font-size: 16px
-        margin-bottom: 5px
-      
+        margin-left: auto
+        margin-right: 0
 
       .expense-date 
         color: #888
         font-size: 14px
-      
 
       .expense-comment 
         margin-top: 10px
         font-style: italic
         font-size: 14px
         color: #555
-      
-    
-  
+
+// For a better layout in mobile
+::ng-deep .mat-mdc-paginator-container
+  justify-content: center !important
+
+ul.expense-list, ol.expense-list
+  list-style: none
+  padding-inline-start: 0px
