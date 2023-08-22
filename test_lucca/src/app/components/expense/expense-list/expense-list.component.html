@@ -1,0 +1,17 @@
+<div class="expense-list" *ngIf="expenses">
+  <div class="expense-item" *ngFor="let expense of expenses">
+    <div class="expense-details">
+      <div class="expense-header">
+        <div class="expense-category">
+          <!-- Use category-specific icons here -->
+          <span *ngIf="expense.nature === 'restaurant'">🍽️</span>
+          <span *ngIf="expense.nature === 'trip'">✈️</span>
+        </div>
+        <div class="expense-nature">{{ expense.nature }}</div>
+      </div>
+      <div class="expense-amount">$ {{ expense.amount }}</div>
+      <div class="expense-date">{{ expense.purchasedOn | date }}</div>
+      <div class="expense-comment">{{ expense.comment }}</div>
+    </div>
+  </div>
+</div>
