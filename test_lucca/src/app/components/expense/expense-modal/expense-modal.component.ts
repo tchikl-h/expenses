@@ -22,7 +22,7 @@ export class ExpenseModalComponent {
   constructor(
     // Injecting data passed to the modal and DatePipe for formatting
     @Inject(MAT_DIALOG_DATA) public data: ModalData,
-    private datePipe: DatePipe
+    public datePipe: DatePipe
   ) {
     // Initialize the expense based on the passed data or default values
     if (data) {

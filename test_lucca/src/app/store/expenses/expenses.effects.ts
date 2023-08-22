@@ -22,12 +22,14 @@ export class ExpensesEffects {
     private expensesService: ExpensesService
   ) {}
 
+  // Effect to handle adding an expense
   addExpense$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addExpense),
       mergeMap((action) =>
         this.expensesService.addExpense(action.expense).pipe(
           map((data) => {
+            // Create a new expense object with the returned ID from the server
             const expense: Expense = { ...action.expense, id: data.id };
             return addExpenseSuccess({ expense });
           }),
@@ -37,17 +39,18 @@ export class ExpensesEffects {
     )
   );
 
+  // Effect to handle updating an expense
   updateExpense$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateExpense),
       mergeMap((action) =>
         this.expensesService.updateExpense(action.expense).pipe(
           map(() => {
+            // Prepare an updated expense object with changes for NGRX entity
             const updatedExpense: Update<Expense> = {
-              // TODO: enlever le ternaire
-              id: action.expense.id ? action.expense.id : -1,
+              id: action.expense.id ? action.expense.id : -1, // Use a placeholder ID if not available
               changes: {
-                ...action.expense,
+                ...action.expense, // Apply all changes to the expense object
               },
             };
             return updateExpenseSuccess({ expense: updatedExpense });
@@ -58,6 +61,7 @@ export class ExpensesEffects {
     )
   );
 
+  // Effect to handle fetching all expenses
   getAllExpense$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getAllExpenses),
@@ -65,8 +69,8 @@ export class ExpensesEffects {
         this.expensesService.getAllExpenses(page, limit).pipe(
           map((payload) =>
             getAllExpensesSuccess({
-              expenses: payload.items,
-              count: payload.count,
+              expenses: payload.items, // Extract expenses from the payload
+              count: payload.count, // Extract the total count of expenses
             })
           ),
           catchError(() => [getAllExpensesError()])
