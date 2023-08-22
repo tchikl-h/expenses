@@ -68,6 +68,9 @@
       [matDatepicker]="purchasedDatePicker"
       [(ngModel)]="editedExpense.purchasedOn"
       name="purchasedOn"
+      (ngModelChange)="
+        editedExpense.purchasedOn = formatDatePickerValue($event)
+      "
     />
     <mat-datepicker-toggle
       matSuffix
