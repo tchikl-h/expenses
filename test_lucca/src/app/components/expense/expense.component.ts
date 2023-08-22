@@ -1,11 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Expense } from 'src/app/models/expense';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { ExpensesFacade, selectTotalExpenses } from '../../store/expenses';
 import { selectExpenses } from '../../store/expenses';
 import { PageEvent } from '@angular/material/paginator';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 
@@ -14,7 +14,8 @@ import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
   templateUrl: './expense.component.html',
   styleUrls: ['./expense.component.sass'],
 })
-export class ExpenseComponent {
+export class ExpenseComponent implements OnDestroy {
+  destroyed = new Subject();
   private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
   page$: BehaviorSubject<number> = new BehaviorSubject(0);
   limit$: BehaviorSubject<number> = new BehaviorSubject(20);
@@ -27,11 +28,18 @@ export class ExpenseComponent {
   );
 
   constructor(private store: Store, private modal: MatDialog) {
-    this.pageAndLimit$.subscribe(([page, limit]) => {
-      this.expensesFacade.getAll(page, limit);
-    });
+    this.pageAndLimit$
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(([page, limit]) => {
+        this.expensesFacade.getAll(page, limit);
+      });
     this.expenses$ = this.store.select(selectExpenses);
     this.totalExpenses$ = this.store.select(selectTotalExpenses);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed.next(true);
+    this.destroyed.complete();
   }
 
   onPageChange(event: PageEvent) {
@@ -52,15 +60,17 @@ export class ExpenseComponent {
   openModal() {
     const dialogRef = this.modal.open(ExpenseModalComponent);
 
-    dialogRef.componentInstance.saveChangesEvent.subscribe(
-      (newExpense: Expense) => {
+    dialogRef.componentInstance.saveChangesEvent
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((newExpense: Expense) => {
         this.expensesFacade.addExpense(newExpense);
         this.modal.closeAll();
-      }
-    );
+      });
 
-    dialogRef.componentInstance.cancelEditEvent.subscribe(() => {
-      this.modal.closeAll();
-    });
+    dialogRef.componentInstance.cancelEditEvent
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(() => {
+        this.modal.closeAll();
+      });
   }
 }
