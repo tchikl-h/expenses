@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
+/* eslint-disable */
 import { of, Subject } from 'rxjs';
 import { Expense } from 'src/app/models/expense';
 import { ExpensesFacade } from '../../store/expenses';

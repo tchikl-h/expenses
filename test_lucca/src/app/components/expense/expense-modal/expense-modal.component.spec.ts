@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
