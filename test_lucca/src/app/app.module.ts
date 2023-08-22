@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { ExpenseListSkeletonComponent } from './components/expense/expense-list/expense-list-skeleton/expense-list-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DatePipe } from '@angular/common';
     ExpenseComponent,
     ExpenseListComponent,
     ExpenseModalComponent,
+    ExpenseListSkeletonComponent,
   ],
   imports: [
     BrowserModule,

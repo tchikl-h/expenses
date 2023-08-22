@@ -1,0 +1,26 @@
+<ul class="expense-list">
+  <!-- Angular ngFor loop for expenses -->
+  <li
+    class="expense-item"
+    *ngFor="let index of [0, 1, 2, 3, 4]"
+    tabindex="0"
+    role="button"
+  >
+    <!-- Expense details container -->
+    <div class="expense-details">
+      <!-- Expense header -->
+      <div class="expense-header">
+        <div class="expense-category">
+          <span aria-label="Searching">🔍</span>
+        </div>
+        <div class="expense-nature">XXXXXXXX</div>
+        <div class="expense-amount">$ XXX</div>
+      </div>
+      <!-- Expense details based on nature -->
+      <div class="expense-invites" aria-label="Number of Invites">XXXXXXXX</div>
+      <!-- Expense date -->
+      <div class="expense-date">XXXXXXXX</div>
+      <div class="expense-comment">XXXXXXXX</div>
+    </div>
+  </li>
+</ul>

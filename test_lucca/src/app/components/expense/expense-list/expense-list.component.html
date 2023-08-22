@@ -1,4 +1,5 @@
-<ul class="expense-list" *ngIf="expenses">
+<ul class="expense-list">
+  <!-- Angular ngFor loop for expenses -->
   <li
     class="expense-item"
     *ngFor="let expense of expenses"
@@ -8,7 +9,9 @@
     role="button"
     (keydown.space)="openModal(expense)"
   >
+    <!-- Expense details container -->
     <div class="expense-details">
+      <!-- Expense header -->
       <div class="expense-header">
         <div class="expense-category">
           <span *ngIf="expense.nature === 'restaurant'" aria-label="Restaurant"
@@ -24,6 +27,7 @@
           $ {{ expense.amount }}
         </div>
       </div>
+      <!-- Expense details based on nature -->
       <div
         *ngIf="expense.nature === 'restaurant'"
         class="expense-invites"
@@ -38,6 +42,7 @@
       >
         <span class="label">Distance:</span> {{ expense.distance }} km
       </div>
+      <!-- Expense date -->
       <div
         class="expense-date"
         [attr.aria-label]="

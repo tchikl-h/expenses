@@ -19,7 +19,9 @@
 </div>
 <section aria-labelledby="expenseListHeading">
   <h2 id="expenseListHeading" class="visually-hidden">Expense List</h2>
-  <app-expense-list [expenses]="expenses$ | async"></app-expense-list>
+  <ng-container *ngIf="(expenses$ | async)?.length; else loadingState">
+    <app-expense-list [expenses]="expenses$ | async"></app-expense-list>
+  </ng-container>
 </section>
 <div class="paginator-container">
   <nav aria-label="Expense Pagination">
@@ -33,3 +35,8 @@
     ></mat-paginator>
   </nav>
 </div>
+
+<!-- Loading state template -->
+<ng-template #loadingState>
+  <app-expense-list-skeleton></app-expense-list-skeleton>
+</ng-template>
