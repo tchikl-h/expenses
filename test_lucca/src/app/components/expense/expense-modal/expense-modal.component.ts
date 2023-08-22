@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Expense } from 'src/app/models/expense';
 import { ModalData } from '../../../models/modalData';
 import { defaultExpense } from 'src/app/shared/constants';
+import { ExpenseNature } from 'src/app/models/expenseNature';
 
 @Component({
   selector: 'app-expense-modal',
@@ -26,6 +27,7 @@ export class ExpenseModalComponent {
   }
 
   saveChanges() {
+    this.updateExpensePropertiesBasedOnNature();
     this.saveChangesEvent.emit(this.expense);
   }
 
@@ -38,5 +40,13 @@ export class ExpenseModalComponent {
       return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
     }
     return '';
+  }
+
+  updateExpensePropertiesBasedOnNature() {
+    if (this.expense.nature === ExpenseNature.Restaurant) {
+      delete this.expense.distance;
+    } else if (this.expense.nature === ExpenseNature.Trip) {
+      delete this.expense.invites;
+    }
   }
 }
