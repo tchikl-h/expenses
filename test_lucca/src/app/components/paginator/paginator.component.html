@@ -1,0 +1,34 @@
+<div class="custom-paginator" *ngIf="pageSize !== null && pageIndex !== null">
+  <select
+    [(ngModel)]="pageSize"
+    (change)="onPageChange(pageSize, 0)"
+    class="page-size-select"
+  >
+    <option
+      *ngFor="let pageSizeOption of pageSizeOptions"
+      [value]="pageSizeOption"
+    >
+      {{ pageSizeOption }}
+    </option>
+  </select>
+
+  <button
+    [disabled]="pageIndex === 0"
+    (click)="onPageChange(pageSize, pageIndex - 1)"
+    class="pagination-button"
+  >
+    Previous
+  </button>
+
+  <span class="page-indicator">
+    Page {{ pageIndex + 1 }} of {{ lastPage + 1 }}
+  </span>
+
+  <button
+    [disabled]="pageIndex === lastPage"
+    (click)="onPageChange(pageSize, pageIndex + 1)"
+    class="pagination-button"
+  >
+    Next
+  </button>
+</div>

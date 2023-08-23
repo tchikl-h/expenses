@@ -55,15 +55,14 @@ export class ExpenseComponent implements OnDestroy {
     this.destroyed.complete();
   }
 
-  onPageChange(event: PageEvent) {
-    const newLimit = event.pageSize;
-    if (newLimit !== this.limit$.getValue()) {
+  onPageChange(limit: number, page: number) {
+    if (limit !== this.limit$.getValue()) {
       // Update limit and reset page when limit changes
-      this.limit$.next(newLimit);
+      this.limit$.next(limit);
       this.page$.next(0);
     } else {
       // Update page when page index changes
-      this.page$.next(event.pageIndex);
+      this.page$.next(page);
     }
   }
 

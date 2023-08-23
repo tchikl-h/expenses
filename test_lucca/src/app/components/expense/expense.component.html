@@ -8,14 +8,14 @@
     <span class="plus-icon">+</span>
   </button>
   <nav aria-label="Expense Pagination">
-    <mat-paginator
+    <app-paginator
       [length]="totalExpenses$ | async"
       [pageSize]="limit$ | async"
       [pageSizeOptions]="[5, 10, 25, 100]"
       [pageIndex]="page$ | async"
       aria-label="Expense Pagination"
-      (page)="onPageChange($event)"
-    ></mat-paginator>
+      (handlePageChange)="onPageChange($event.limit, $event.page)"
+    ></app-paginator>
   </nav>
 </div>
 <section aria-labelledby="expenseListHeading">
@@ -26,14 +26,14 @@
 </section>
 <div class="paginator-container">
   <nav aria-label="Expense Pagination">
-    <mat-paginator
+    <app-paginator
       [length]="totalExpenses$ | async"
       [pageSize]="limit$ | async"
       [pageSizeOptions]="[5, 10, 25, 100]"
       [pageIndex]="page$ | async"
       aria-label="Expense Pagination"
-      (page)="onPageChange($event)"
-    ></mat-paginator>
+      (handlePageChange)="onPageChange($event.limit, $event.page)"
+    ></app-paginator>
   </nav>
 </div>
 

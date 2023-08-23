@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { ExpenseListSkeletonComponent } from './components/expense/expense-list/expense-list-skeleton/expense-list-skeleton.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ExpenseListSkeletonComponent } from './components/expense/expense-list/
     ExpenseListComponent,
     ExpenseModalComponent,
     ExpenseListSkeletonComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
