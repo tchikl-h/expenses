@@ -1,6 +1,6 @@
 <div class="custom-paginator" *ngIf="pageSize !== null && pageIndex !== null">
   <select
-    [(ngModel)]="pageSize"
+    [value]="pageSize"
     (change)="onPageChange(pageSize, 0)"
     class="page-size-select"
   >

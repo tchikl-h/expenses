@@ -5,7 +5,6 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Expense } from 'src/app/models/expense';
 import { Subject } from 'rxjs';
 
@@ -23,8 +22,6 @@ export class ExpenseListComponent implements OnDestroy {
 
   // Input property for passing expenses data to the component
   @Input() expenses: Expense[] | null;
-
-  constructor(private modal: MatDialog) {}
 
   ngOnDestroy(): void {
     // Completing the destruction subject

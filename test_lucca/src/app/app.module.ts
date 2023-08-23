@@ -11,12 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExpensesEffects } from './store/expenses/expenses.effects';
 import { ExpenseListComponent } from './components/expense/expense-list/expense-list.component';
 import { ExpenseFormComponent } from './components/expense/expense-form/expense-form.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { ExpenseListSkeletonComponent } from './components/expense/expense-list/expense-list-skeleton/expense-list-skeleton.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
@@ -36,12 +30,6 @@ import { ModalComponent } from './components/modal/modal.component';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatDialogModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([ExpensesEffects]),
   ],
