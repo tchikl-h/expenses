@@ -1,0 +1,30 @@
+<div
+  *ngIf="showModal"
+  class="modal-background"
+  (click)="onCloseModal()"
+  tabindex="0"
+  (keydown.enter)="onCloseModal()"
+  (keydown.space)="onCloseModal()"
+>
+  <div
+    class="modal-content"
+    (click)="onContentClick($event)"
+    tabindex="0"
+    (keydown.enter)="onContentClick($event)"
+    (keydown.space)="onContentClick($event)"
+  >
+    <div
+      class="modal-close-icon"
+      (click)="onCloseModal()"
+      tabindex="0"
+      (keydown.enter)="onCloseModal()"
+      (keydown.space)="onCloseModal()"
+    >
+      <span>&times;</span>
+    </div>
+
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

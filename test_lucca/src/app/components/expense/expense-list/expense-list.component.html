@@ -3,11 +3,11 @@
   <li
     class="expense-item"
     *ngFor="let expense of expenses"
-    (click)="openModal(expense)"
-    (keydown.enter)="openModal(expense)"
+    (click)="clickExpense(expense)"
+    (keydown.enter)="clickExpense(expense)"
     tabindex="0"
     role="button"
-    (keydown.space)="openModal(expense)"
+    (keydown.space)="clickExpense(expense)"
   >
     <!-- Expense details container -->
     <div class="expense-details">

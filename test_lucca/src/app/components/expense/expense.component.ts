@@ -4,10 +4,9 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { ExpensesFacade, selectTotalExpenses } from '../../store/expenses';
 import { selectExpenses } from '../../store/expenses';
-import { PageEvent } from '@angular/material/paginator';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
+import { ModalService } from 'src/app/services/modal.service';
+import { defaultExpense } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-expense',
@@ -15,6 +14,9 @@ import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
   styleUrls: ['./expense.component.sass'],
 })
 export class ExpenseComponent implements OnDestroy {
+  private isCreation: boolean;
+  defaultExpense: Expense = defaultExpense;
+  selectedExpense: Subject<Expense> = new Subject<Expense>();
   // Subject to track component destruction
   destroyed = new Subject();
 
@@ -23,7 +25,7 @@ export class ExpenseComponent implements OnDestroy {
 
   // Behavior subjects for page and limit
   page$: BehaviorSubject<number> = new BehaviorSubject(0);
-  limit$: BehaviorSubject<number> = new BehaviorSubject(20);
+  limit$: BehaviorSubject<number> = new BehaviorSubject(10);
 
   // Observable for expenses and totalExpenses
   expenses$: Observable<Expense[]>;
@@ -36,7 +38,7 @@ export class ExpenseComponent implements OnDestroy {
     })
   );
 
-  constructor(private store: Store, private modal: MatDialog) {
+  constructor(private store: Store, private modalService: ModalService) {
     // Subscribe to pageAndLimit$ observable to fetch expenses
     this.pageAndLimit$
       .pipe(takeUntil(this.destroyed))
@@ -55,39 +57,36 @@ export class ExpenseComponent implements OnDestroy {
     this.destroyed.complete();
   }
 
-  onPageChange(event: PageEvent) {
-    const newLimit = event.pageSize;
-    if (newLimit !== this.limit$.getValue()) {
+  onPageChange(limit: number, page: number) {
+    if (limit !== this.limit$.getValue()) {
       // Update limit and reset page when limit changes
-      this.limit$.next(newLimit);
+      this.limit$.next(limit);
       this.page$.next(0);
     } else {
       // Update page when page index changes
-      this.page$.next(event.pageIndex);
+      this.page$.next(page);
     }
   }
 
   onAddButtonClick(): void {
-    this.openModal();
+    this.isCreation = true;
+    this.selectedExpense.next({ ...defaultExpense });
+    this.modalService.openModal();
   }
 
-  openModal() {
-    // Open the expense modal and handle events
-    const dialogRef = this.modal.open(ExpenseModalComponent);
+  saveChanges(expense: Expense) {
+    if (this.isCreation) {
+      this.expensesFacade.addExpense(expense);
+      this.page$.next(0);
+    } else {
+      this.expensesFacade.updateExpense(expense);
+    }
+    this.modalService.closeModal();
+  }
 
-    // When modal save click, we add the expense
-    dialogRef.componentInstance.saveChangesEvent
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((newExpense: Expense) => {
-        this.expensesFacade.addExpense(newExpense);
-        this.modal.closeAll();
-      });
-
-    // When modal cancel click, we close the modal
-    dialogRef.componentInstance.cancelEditEvent
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => {
-        this.modal.closeAll();
-      });
+  onExpenseSelected(expense: Expense) {
+    this.isCreation = false;
+    this.selectedExpense.next({ ...expense });
+    this.modalService.openModal();
   }
 }

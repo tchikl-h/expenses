@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { of, Subject } from 'rxjs';
 import { Expense } from 'src/app/models/expense';
 import { ExpensesFacade } from '../../store/expenses';
-import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
+import { ExpenseModalComponent } from './expense-form/expense-form.component';
 import { ExpenseComponent } from './expense.component';
 import { ExpenseNature } from 'src/app/models/expenseNature';
 

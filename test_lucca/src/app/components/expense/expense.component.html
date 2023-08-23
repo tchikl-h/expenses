@@ -8,32 +8,35 @@
     <span class="plus-icon">+</span>
   </button>
   <nav aria-label="Expense Pagination">
-    <mat-paginator
+    <app-paginator
       [length]="totalExpenses$ | async"
       [pageSize]="limit$ | async"
-      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSizeOptions]="[5, 10, 25, 100, 200]"
       [pageIndex]="page$ | async"
       aria-label="Expense Pagination"
-      (page)="onPageChange($event)"
-    ></mat-paginator>
+      (handlePageChange)="onPageChange($event.limit, $event.page)"
+    ></app-paginator>
   </nav>
 </div>
 <section aria-labelledby="expenseListHeading">
   <h2 id="expenseListHeading" class="visually-hidden">Expense List</h2>
   <ng-container *ngIf="(expenses$ | async)?.length; else loadingState">
-    <app-expense-list [expenses]="expenses$ | async"></app-expense-list>
+    <app-expense-list
+      [expenses]="expenses$ | async"
+      (expenseSelected)="onExpenseSelected($event)"
+    ></app-expense-list>
   </ng-container>
 </section>
 <div class="paginator-container">
   <nav aria-label="Expense Pagination">
-    <mat-paginator
+    <app-paginator
       [length]="totalExpenses$ | async"
       [pageSize]="limit$ | async"
       [pageSizeOptions]="[5, 10, 25, 100]"
       [pageIndex]="page$ | async"
       aria-label="Expense Pagination"
-      (page)="onPageChange($event)"
-    ></mat-paginator>
+      (handlePageChange)="onPageChange($event.limit, $event.page)"
+    ></app-paginator>
   </nav>
 </div>
 
@@ -41,3 +44,11 @@
 <ng-template #loadingState>
   <app-expense-list-skeleton></app-expense-list-skeleton>
 </ng-template>
+
+<app-modal>
+  <app-expense-form
+    #expenseForm
+    [expense]="(selectedExpense | async) || defaultExpense"
+    (saveChangesEvent)="saveChanges($event)"
+  ></app-expense-form>
+</app-modal>
