@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { ExpensesFacade, selectTotalExpenses } from '../../store/expenses';
 import { selectExpenses } from '../../store/expenses';
-import { PageEvent } from '@angular/material/paginator';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseModalComponent } from './expense-modal/expense-modal.component';

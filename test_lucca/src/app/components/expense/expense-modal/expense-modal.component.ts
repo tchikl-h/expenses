@@ -12,6 +12,7 @@ import { ExpenseNature } from 'src/app/models/expenseNature';
   styleUrls: ['./expense-modal.component.sass'],
 })
 export class ExpenseModalComponent {
+  ExpenseNature = ExpenseNature;
   // The current expense being edited
   expense: Expense;
 
@@ -59,6 +60,51 @@ export class ExpenseModalComponent {
       delete this.expense.distance; // Remove distance for restaurant expenses
     } else if (this.expense.nature === ExpenseNature.Trip) {
       delete this.expense.invites; // Remove invites for trip expenses
+    }
+  }
+
+  changeNature(nature: ExpenseNature) {
+    this.expense.nature = nature;
+  }
+
+  isFormValid() {
+    const requiredFields: Record<ExpenseNature, string[]> = {
+      [ExpenseNature.Restaurant]: ['amount', 'purchasedOn', 'invites'],
+      [ExpenseNature.Trip]: ['amount', 'purchasedOn', 'distance'],
+    };
+
+    const fieldsToCheck = requiredFields[this.expense.nature];
+
+    if (!fieldsToCheck) {
+      return false;
+    }
+
+    return fieldsToCheck.every(
+      (field) => !!this.expense[field as keyof Expense]
+    );
+  }
+
+  handleInputChange(event: Event, field: string) {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    switch (field) {
+      case 'invites':
+        this.expense.invites = parseInt(inputValue, 10);
+        break;
+      case 'distance':
+        this.expense.distance = parseInt(inputValue, 10);
+        break;
+      case 'amount':
+        this.expense.amount = parseInt(inputValue, 10);
+        break;
+      case 'comment':
+        this.expense.comment = inputValue;
+        break;
+      case 'purchasedOn':
+        this.expense.purchasedOn = inputValue;
+        break;
+      default:
+        break;
     }
   }
 }
