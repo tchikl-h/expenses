@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalData } from '../../../models/modalData';
 import { ExpenseNature } from 'src/app/models/expenseNature';
-import { ExpenseModalComponent } from './expense-modal.component';
+import { ExpenseFormComponent } from './expense-form.component';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';

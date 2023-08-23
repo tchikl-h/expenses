@@ -104,20 +104,14 @@
   </fieldset>
   <div class="button-group">
     <button
-      type="submit"
       class="save-button"
-      aria-label="Save"
+      (click)="saveChanges()"
       [disabled]="!isFormValid()"
+      tabindex="0"
+      (keydown.enter)="saveChanges()"
+      (keydown.space)="saveChanges()"
     >
-      Save Changes
-    </button>
-    <button
-      type="button"
-      (click)="cancelEdit()"
-      class="cancel-button"
-      aria-label="Cancel"
-    >
-      Cancel
+      Save
     </button>
   </div>
 </form>

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { ExpenseListComponent } from './expense-list.component';
-import { ExpenseModalComponent } from '../expense-modal/expense-modal.component';
+import { ExpenseModalComponent } from '../expense-form/expense-form.component';
 import { ExpensesFacade } from 'src/app/store/expenses';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseNature } from 'src/app/models/expenseNature';
