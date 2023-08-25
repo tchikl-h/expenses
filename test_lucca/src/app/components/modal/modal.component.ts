@@ -15,20 +15,29 @@ import { ModalService } from 'src/app/services/modal.service';
   styleUrls: ['./modal.component.sass'],
 })
 export class ModalComponent implements OnDestroy {
+  // Property to control the visibility of the modal
   showModal: boolean;
+
+  // Output event for canceling edits
   @Output() cancelEditEvent = new EventEmitter<void>();
+
+  // ViewChild to access an element in the template
   @ViewChild('focusElement', { read: ElementRef })
   focusElement: ElementRef;
+
   // Subject to track component destruction
   destroyed = new Subject();
 
   constructor(private modalService: ModalService) {
+    // Subscribe to the showModal$ observable from ModalService
     this.modalService.showModal$
       .pipe(takeUntil(this.destroyed))
       .subscribe((showModal) => {
+        // Update the showModal property
         this.showModal = showModal;
+
+        // Use a timeout to ensure the DOM has updated before focusing
         setTimeout(() => {
-          // this will make the execution after the above boolean has changed
           if (this.focusElement) {
             this.focusElement.nativeElement.focus();
           }
@@ -36,17 +45,20 @@ export class ModalComponent implements OnDestroy {
       });
   }
 
+  // Method called when the component is being destroyed
   ngOnDestroy(): void {
-    // Completing the destruction subject
+    // Completing the destruction subject to prevent memory leaks
     this.destroyed.next(true);
     this.destroyed.complete();
   }
 
+  // Method to close the modal and emit a cancel event
   onCloseModal() {
     this.cancelEditEvent.emit();
     this.modalService.closeModal();
   }
 
+  // Method to prevent clicks within the modal from propagating
   onContentClick(event: Event) {
     event.stopPropagation();
   }

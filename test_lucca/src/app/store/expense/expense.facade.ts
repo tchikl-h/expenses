@@ -7,16 +7,16 @@ import {
   getExpensesAction,
   updateExpenseAction,
 } from './expense.actions';
-import { Store } from './expense.store';
+import { StoreComponent } from './expense.store';
 
 @Injectable()
 export class ExpensesFacade {
-  private store: Store;
+  private store: StoreComponent;
   expenses$: Observable<Expense[]>;
   totalExpenses$: Observable<number>;
 
   constructor(private expensesService: ExpensesService) {
-    this.store = new Store(expensesService);
+    this.store = new StoreComponent(expensesService);
     this.expenses$ = this.store.state$.pipe(map((state) => state.expenses));
     this.totalExpenses$ = this.store.state$.pipe(map((state) => state.count));
   }

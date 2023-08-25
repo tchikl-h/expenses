@@ -12,9 +12,15 @@ import { ExpensesFacade } from '../../store/expense/expense.facade';
   styleUrls: ['./expense.component.sass'],
 })
 export class ExpenseComponent implements OnDestroy {
+  // Flags to track if a new expense is being created
   isCreation: boolean;
+
+  // Default expense used for creating new expenses
   defaultExpense: Expense = defaultExpense;
+
+  // Subject to hold the selected expense
   selectedExpense: Subject<Expense> = new Subject<Expense>();
+
   // Subject to track component destruction
   destroyed = new Subject();
 
@@ -26,7 +32,7 @@ export class ExpenseComponent implements OnDestroy {
   expenses$: Observable<Expense[]>;
   totalExpenses$: Observable<number>;
 
-  // Tracking whenever page and limit changes
+  // Combining page and limit behavior subjects into one observable
   pageAndLimit$ = combineLatest([this.page$, this.limit$]).pipe(
     distinctUntilChanged(([prevPage, prevLimit], [newPage, newLimit]) => {
       return prevPage === newPage && prevLimit === newLimit;
@@ -37,7 +43,6 @@ export class ExpenseComponent implements OnDestroy {
     private modalService: ModalService,
     private expensesFacade: ExpensesFacade
   ) {
-    // this.expensesFacade = new ExpensesFacade(expensesService);
     // Subscribe to pageAndLimit$ observable to fetch expenses
     this.pageAndLimit$
       .pipe(takeUntil(this.destroyed))
@@ -45,17 +50,18 @@ export class ExpenseComponent implements OnDestroy {
         this.expensesFacade.getAll(page, limit);
       });
 
-    // Selecting expenses and totalExpenses from store
+    // Selecting expenses and totalExpenses from store using ExpensesFacade
     this.expenses$ = this.expensesFacade.expenses$;
     this.totalExpenses$ = this.expensesFacade.totalExpenses$;
   }
 
   ngOnDestroy(): void {
-    // Completing the destruction subject
+    // Completing the destruction subject to prevent memory leaks
     this.destroyed.next(true);
     this.destroyed.complete();
   }
 
+  // Method to handle page changes
   onPageChange(limit: number, page: number) {
     if (limit !== this.limit$.getValue()) {
       // Update limit and reset page when limit changes
@@ -66,12 +72,14 @@ export class ExpenseComponent implements OnDestroy {
     }
   }
 
+  // Method to handle clicking the "Add" button
   onAddButtonClick(): void {
     this.isCreation = true;
-    this.selectedExpense.next({ ...defaultExpense });
+    this.selectedExpense.next({ ...this.defaultExpense });
     this.modalService.openModal();
   }
 
+  // Method to save changes to an expense
   saveChanges(expense: Expense) {
     if (this.isCreation) {
       this.expensesFacade.addExpense(expense);
@@ -82,6 +90,7 @@ export class ExpenseComponent implements OnDestroy {
     this.modalService.closeModal();
   }
 
+  // Method to handle selecting an expense for editing
   onExpenseSelected(expense: Expense) {
     this.isCreation = false;
     this.selectedExpense.next({ ...expense });

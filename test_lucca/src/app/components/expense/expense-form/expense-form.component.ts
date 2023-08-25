@@ -9,21 +9,23 @@ import { ExpenseNature } from 'src/app/models/expenseNature';
 })
 export class ExpenseFormComponent {
   ExpenseNature = ExpenseNature;
-  // The current expense being edited
+
+  // The current expense being edited, received as an input
   @Input() expense: Expense;
 
   // EventEmitter for saving changes and canceling edit
   @Output() saveChangesEvent = new EventEmitter<Expense>();
 
-  // Save changes to the expense and emit the event
+  // Method to save changes to the expense and emit the event
   saveChanges() {
     // Update expense properties based on nature before saving
     this.updateExpensePropertiesBasedOnNature();
+
     // Emit the event with the updated expense
     this.saveChangesEvent.emit(this.expense);
   }
 
-  // Update expense properties based on its nature
+  // Method to update expense properties based on its nature
   updateExpensePropertiesBasedOnNature() {
     if (this.expense.nature === ExpenseNature.Restaurant) {
       delete this.expense.distance; // Remove distance for restaurant expenses
@@ -32,27 +34,36 @@ export class ExpenseFormComponent {
     }
   }
 
+  // Method to change the expense nature
   changeNature(nature: ExpenseNature) {
     this.expense.nature = nature;
   }
 
+  // Method to check if the form is valid
   isFormValid() {
+    // Define an object that maps each ExpenseNature to its required fields
     const requiredFields: Record<ExpenseNature, string[]> = {
       [ExpenseNature.Restaurant]: ['amount', 'purchasedOn', 'invites'],
       [ExpenseNature.Trip]: ['amount', 'purchasedOn', 'distance'],
     };
 
+    // Get the required fields based on the current expense's nature
     const fieldsToCheck = requiredFields[this.expense.nature];
 
+    // If the expense's nature is not recognized or there are no required fields,
+    // the form is considered invalid
     if (!fieldsToCheck) {
       return false;
     }
 
+    // Check if all required fields in the expense object have values
+    // Return true if all required fields have values, otherwise return false
     return fieldsToCheck.every(
       (field) => !!this.expense[field as keyof Expense]
     );
   }
 
+  // Method to handle input changes
   handleInputChange(event: Event, field: string) {
     const inputValue = (event.target as HTMLInputElement).value;
 
