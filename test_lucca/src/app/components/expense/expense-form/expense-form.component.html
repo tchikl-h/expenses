@@ -6,6 +6,7 @@
       <div class="radio-group">
         <label class="radio-label" for="restaurant">
           <input
+            id="nature"
             type="radio"
             [checked]="expense.nature === ExpenseNature.Restaurant"
             (change)="changeNature(ExpenseNature.Restaurant)"
@@ -38,6 +39,7 @@
       <div class="form-group">
         <label for="invites">Number of Invites</label>
         <input
+          id="invites"
           data-testid="invites-input"
           type="number"
           [value]="expense.invites"
@@ -57,6 +59,7 @@
       <div class="form-group">
         <label for="distance">Trip Distance (in km)</label>
         <input
+          id="distance"
           data-testid="distance-input"
           type="number"
           [value]="expense.distance"
@@ -72,6 +75,7 @@
     <div class="form-group">
       <label for="amount">Amount</label>
       <input
+        id="amount"
         type="number"
         [value]="expense.amount"
         (input)="handleInputChange($event, 'amount')"
@@ -85,6 +89,7 @@
     <div class="form-group">
       <label for="comment">Comment</label>
       <textarea
+        id="comment"
         [value]="expense.comment"
         (input)="handleInputChange($event, 'comment')"
         name="comment"
@@ -95,6 +100,7 @@
     <div class="date-field">
       <label class="purchased-on" for="purchasedOn">Purchased On</label>
       <input
+        id="purchasedOn"
         type="date"
         [value]="expense.purchasedOn"
         (input)="handleInputChange($event, 'purchasedOn')"

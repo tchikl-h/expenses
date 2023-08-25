@@ -30,10 +30,6 @@ export class ExpensesEffects {
     this.addExpense$ = this.buildAddExpense();
     this.updateExpense$ = this.buildUpdateExpense();
     this.getExpenses$ = this.buildGetExpenses();
-
-    this.addExpense$.subscribe();
-    this.updateExpense$.subscribe();
-    this.getExpenses$.subscribe();
   }
 
   buildAddExpense(): Observable<ExpenseActions> {
