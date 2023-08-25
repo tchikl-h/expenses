@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Expense } from 'src/app/models/expense';
-import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ModalService } from 'src/app/services/modal.service';
@@ -18,10 +17,6 @@ export class ExpenseComponent implements OnDestroy {
   selectedExpense: Subject<Expense> = new Subject<Expense>();
   // Subject to track component destruction
   destroyed = new Subject();
-  // private expensesFacade: ExpensesFacade;
-
-  // Using Angular's inject function to access ExpensesFacade
-  // private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
 
   // Behavior subjects for page and limit
   page$: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -39,7 +34,6 @@ export class ExpenseComponent implements OnDestroy {
   );
 
   constructor(
-    private store: Store,
     private modalService: ModalService,
     private expensesFacade: ExpensesFacade
   ) {

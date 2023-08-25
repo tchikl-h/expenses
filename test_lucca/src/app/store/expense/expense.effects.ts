@@ -1,23 +1,19 @@
-import { Observable, of, Subject } from 'rxjs';
-import { mergeMap, map, catchError, filter } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { mergeMap, map, filter } from 'rxjs/operators';
 import { ExpensesService } from 'src/app/services/expense.service';
 import {
-  AddExpenseActionError,
   ExpenseActions,
-  ADD_EXPENSE_ACTION_ERROR,
   AddExpenseAction,
   UpdateExpenseAction,
   updateExpenseAction,
   GetExpensesAction,
-  UpdateExpenseActionError,
-  UPDATE_EXPENSE_ACTION_ERROR,
-  GetExpensesActionError,
-  GET_EXPENSES_ACTION_ERROR,
   UPDATE_EXPENSE_ACTION,
   ADD_EXPENSE_ACTION,
   GET_EXPENSES_ACTION,
   getExpensesActionSuccess,
   GetExpensesActionSuccess,
+  updateExpenseActionSuccess,
+  UpdateExpenseActionSuccess,
 } from './expense.actions';
 
 export class ExpensesEffects {
@@ -46,20 +42,11 @@ export class ExpensesEffects {
       map((action) => action as AddExpenseAction),
       mergeMap((action) =>
         this.expensesService.addExpense(action.payload.expense).pipe(
-          map((data) => {
+          map(() => {
             // déclenchement d'action pour ajout
-            const updateAction: UpdateExpenseAction = updateExpenseAction({
-              ...action.payload.expense,
-              id: data.id,
-            });
-            return updateAction;
-          }),
-          catchError(() => {
-            // action delete
-            const addExpenseErrorAction: AddExpenseActionError = {
-              type: ADD_EXPENSE_ACTION_ERROR,
-            };
-            return of(addExpenseErrorAction);
+            const updateActionsuccess: UpdateExpenseActionSuccess =
+              updateExpenseActionSuccess();
+            return updateActionsuccess;
           })
         )
       )
@@ -78,12 +65,6 @@ export class ExpensesEffects {
               action.payload.expense
             );
             return updateAction;
-          }),
-          catchError(() => {
-            const updateExpenseErrorAction: UpdateExpenseActionError = {
-              type: UPDATE_EXPENSE_ACTION_ERROR,
-            };
-            return of(updateExpenseErrorAction);
           })
         )
       )
@@ -103,12 +84,6 @@ export class ExpensesEffects {
               const getAction: GetExpensesActionSuccess =
                 getExpensesActionSuccess(data.items, data.count);
               return getAction;
-            }),
-            catchError(() => {
-              const getExpensesErrorAction: GetExpensesActionError = {
-                type: GET_EXPENSES_ACTION_ERROR,
-              };
-              return of(getExpensesErrorAction);
             })
           )
       )

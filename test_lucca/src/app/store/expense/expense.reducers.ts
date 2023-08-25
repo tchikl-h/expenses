@@ -1,11 +1,11 @@
 import { ExpensesState, initialState } from './expense.state';
 import {
-  AddExpenseActionSuccess,
+  AddExpenseAction,
   ADD_EXPENSE_ACTION,
   ExpenseActions,
   GetExpensesActionSuccess,
   GET_EXPENSES_ACTION_SUCCESS,
-  UpdateExpenseActionSuccess,
+  UpdateExpenseAction,
   UPDATE_EXPENSE_ACTION,
 } from './expense.actions';
 
@@ -24,12 +24,11 @@ const reducer: ReducerFunction = (
         ...state,
         expenses: [
           ...state.expenses,
-          (action as AddExpenseActionSuccess).payload.expense,
+          (action as AddExpenseAction).payload.expense,
         ],
       };
     case UPDATE_EXPENSE_ACTION: {
-      const updatedExpense = (action as UpdateExpenseActionSuccess).payload
-        .expense;
+      const updatedExpense = (action as UpdateExpenseAction).payload.expense;
       const updatedExpenses = state.expenses.map((expense) => {
         if (expense.id === updatedExpense.id) {
           return { ...expense, ...updatedExpense };
@@ -57,7 +56,7 @@ const reducer: ReducerFunction = (
 // Dispatch action inside your reducer
 const dispatchActionInsideReducer =
   (action: ExpenseActions): ReducerFunction =>
-  (state, _) => {
+  (state) => {
     return reducer(state, action);
   };
 

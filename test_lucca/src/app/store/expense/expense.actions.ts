@@ -1,6 +1,7 @@
 import { Expense } from 'src/app/models/expense';
 
 export const expensesKey = '[Expenses]';
+
 export const ADD_EXPENSE_ACTION = `${expensesKey} Add Expense`;
 export const ADD_EXPENSE_ACTION_SUCCESS = `${expensesKey} Add Expense Success`;
 export const ADD_EXPENSE_ACTION_ERROR = `${expensesKey} Add Expense Error`;
@@ -71,15 +72,11 @@ export const updateExpenseAction = (expense: Expense): UpdateExpenseAction => {
 
 export interface UpdateExpenseActionSuccess {
   type: typeof UPDATE_EXPENSE_ACTION_SUCCESS;
-  payload: { expense: Expense };
 }
 
-export const updateExpenseActionSuccess = (
-  expense: Expense
-): UpdateExpenseActionSuccess => {
+export const updateExpenseActionSuccess = (): UpdateExpenseActionSuccess => {
   const updateExpenseActionSuccess: UpdateExpenseActionSuccess = {
     type: UPDATE_EXPENSE_ACTION_SUCCESS,
-    payload: { expense },
   };
   return updateExpenseActionSuccess;
 };

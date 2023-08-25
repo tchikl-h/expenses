@@ -38,5 +38,3 @@ export class Store {
     this.actions$.next(action);
   }
 }
-
-// export const store = new Store(expensesService);
