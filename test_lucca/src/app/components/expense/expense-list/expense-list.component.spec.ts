@@ -1,129 +1,147 @@
-/* eslint-disable */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
+import { By } from '@angular/platform-browser';
 import { ExpenseListComponent } from './expense-list.component';
-import { ExpenseModalComponent } from '../expense-form/expense-form.component';
-import { ExpensesFacade } from 'src/app/store/expenses';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseNature } from 'src/app/models/expenseNature';
-import { DatePipe } from '@angular/common';
-import { defaultExpense } from 'src/app/shared/constants';
 
 describe('ExpenseListComponent', () => {
   let component: ExpenseListComponent;
   let fixture: ComponentFixture<ExpenseListComponent>;
-  let mockExpensesFacade: ExpensesFacade;
-  let mockMatDialog: jasmine.SpyObj<MatDialog>;
-  let mockDialogRef: any;
-  const mockDatePipe = jasmine.createSpyObj('DatePipe', ['transform']);
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ExpenseListComponent],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
-    // Create mock instances for testing
-    mockExpensesFacade = jasmine.createSpyObj('ExpensesFacade', [
-      'updateExpense',
-    ]);
-
-    mockMatDialog = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    mockDialogRef = {
-      componentInstance: {
-        saveChangesEvent: new Subject(),
-        cancelEditEvent: new Subject(),
-      },
-      close: jasmine.createSpy('close'),
-    };
-    mockMatDialog.open.and.returnValue(mockDialogRef);
-
-    TestBed.configureTestingModule({
-      imports: [MatDialogModule],
-      declarations: [ExpenseListComponent],
-      providers: [
-        { provide: MatDialog, useValue: mockMatDialog },
-        { provide: ExpensesFacade, useValue: mockExpensesFacade },
-        { provide: DatePipe, useValue: mockDatePipe },
-      ],
-    });
-
-    // Create component and fixture instances
     fixture = TestBed.createComponent(ExpenseListComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    // Assert that the component instance is created successfully
     expect(component).toBeTruthy();
   });
 
-  it('should open the modal and handle saveChangesEvent', () => {
-    // Create a mock expense
-    const mockExpense: Expense = {
-      id: 18,
+  it('should emit expense when clicked', () => {
+    const expense: Expense = {
+      id: 1,
       nature: ExpenseNature.Restaurant,
-      amount: 576,
-      comment: 'Consectetur exercitationem ny.',
-      purchasedOn: '2023-07-11',
-      invites: 1,
+      amount: 50,
+      invites: 4,
+      purchasedOn: '',
+      comment: 'Dinner with friends',
+    };
+    spyOn(component.expenseSelected, 'emit');
+
+    component.clickExpense(expense);
+
+    expect(component.expenseSelected.emit).toHaveBeenCalledWith(expense);
+  });
+
+  it('should display expenses correctly', () => {
+    const expenses: Expense[] = [
+      {
+        id: 1,
+        nature: ExpenseNature.Restaurant,
+        amount: 50,
+        invites: 4,
+        purchasedOn: '',
+        comment: 'Dinner with friends',
+      },
+      {
+        id: 2,
+        nature: ExpenseNature.Trip,
+        amount: 100,
+        distance: 300,
+        purchasedOn: '',
+        comment: 'Weekend trip',
+      },
+    ];
+
+    component.expenses = expenses;
+    fixture.detectChanges();
+
+    const expenseItems = fixture.debugElement.queryAll(By.css('.expense-item'));
+    expect(expenseItems.length).toBe(expenses.length);
+
+    // Test other elements and attributes within the expense items
+    const expenseDetails = expenseItems[0].query(By.css('.expense-details'));
+    expect(expenseDetails.nativeElement.textContent).toContain('$ 50');
+  });
+
+  it('should display expense details based on nature', () => {
+    const expense: Expense = {
+      id: 1,
+      nature: ExpenseNature.Restaurant,
+      amount: 50,
+      invites: 4,
+      purchasedOn: '',
+      comment: 'Dinner with friends',
     };
 
-    // Open modal with the mock expense
-    component.openModal(mockExpense);
+    component.expenses = [expense];
+    fixture.detectChanges();
 
-    // Create an updated expense
-    const updatedExpense: Expense = {
-      ...defaultExpense,
-      invites: 2,
-    };
-
-    // Trigger saveChangesEvent with the updated expense
-    mockDialogRef.componentInstance.saveChangesEvent.next(updatedExpense);
-
-    // Verify that the modal was opened with the correct data
-    expect(mockMatDialog.open).toHaveBeenCalledWith(ExpenseModalComponent, {
-      data: { expense: mockExpense },
-    });
-
-    // Verify that the updateExpense method was called with the updated expense
-    expect(mockExpensesFacade.updateExpense).toHaveBeenCalledWith(
-      updatedExpense
+    const expenseInvites = fixture.debugElement.query(
+      By.css('.expense-invites')
     );
+    expect(expenseInvites.nativeElement.textContent).toContain('Invites: 4');
   });
 
-  it('should open the modal and handle cancelEditEvent', () => {
-    // Create a mock expense
-    const mockExpense: Expense = {
-      id: 18,
+  it('should not display distance if nature is restaurant', () => {
+    const expense: Expense = {
+      id: 1,
       nature: ExpenseNature.Restaurant,
-      amount: 576,
-      comment: 'Consectetur exercitationem ny.',
-      purchasedOn: '2023-07-11',
-      invites: 1,
+      amount: 50,
+      invites: 4,
+      purchasedOn: '',
+      comment: 'Dinner with friends',
     };
 
-    // Open modal with the mock expense
-    component.openModal(mockExpense);
+    component.expenses = [expense];
+    fixture.detectChanges();
 
-    // Trigger cancelEditEvent
-    mockDialogRef.componentInstance.cancelEditEvent.next();
-
-    // Verify that the modal was opened with the correct data
-    expect(mockMatDialog.open).toHaveBeenCalledWith(ExpenseModalComponent, {
-      data: { expense: mockExpense },
-    });
-
-    // Verify that closeAll method was called on the MatDialog instance
-    expect(mockMatDialog.closeAll).toHaveBeenCalled();
+    const expenseDistance = fixture.debugElement.query(
+      By.css('.expense-distance')
+    );
+    expect(expenseDistance).toBeNull();
   });
 
-  it('should complete the destroyed subject on component destruction', () => {
-    // Spy on the 'next' and 'complete' methods of the destroyed subject
-    spyOn(component.destroyed, 'next');
-    spyOn(component.destroyed, 'complete');
+  it('should not display invites if nature is trip', () => {
+    const expense: Expense = {
+      id: 1,
+      nature: ExpenseNature.Trip,
+      amount: 100,
+      distance: 300,
+      purchasedOn: '',
+      comment: 'Weekend trip',
+    };
 
-    // Call the ngOnDestroy method of the component
-    component.ngOnDestroy();
+    component.expenses = [expense];
+    fixture.detectChanges();
 
-    // Verify that 'next' and 'complete' were called on the destroyed subject
-    expect(component.destroyed.next).toHaveBeenCalledWith(true);
-    expect(component.destroyed.complete).toHaveBeenCalled();
+    const expenseInvites = fixture.debugElement.query(
+      By.css('.expense-invites')
+    );
+    expect(expenseInvites).toBeNull();
+  });
+
+  it('should display correct date format', () => {
+    const expense: Expense = {
+      id: 1,
+      nature: ExpenseNature.Restaurant,
+      amount: 50,
+      invites: 4,
+      purchasedOn: '2023-08-25',
+      comment: 'Dinner with friends',
+    };
+
+    component.expenses = [expense];
+    fixture.detectChanges();
+
+    const expenseDate = fixture.debugElement.query(By.css('.expense-date'));
+    expect(expenseDate.nativeElement.textContent).toContain('Aug 25, 2023');
   });
 });

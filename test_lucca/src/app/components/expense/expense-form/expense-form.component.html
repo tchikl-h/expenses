@@ -38,6 +38,7 @@
       <div class="form-group">
         <label for="invites">Number of Invites</label>
         <input
+          data-testid="invites-input"
           type="number"
           [value]="expense.invites"
           (input)="handleInputChange($event, 'invites')"
@@ -56,6 +57,7 @@
       <div class="form-group">
         <label for="distance">Trip Distance (in km)</label>
         <input
+          data-testid="distance-input"
           type="number"
           [value]="expense.distance"
           (input)="handleInputChange($event, 'distance')"

@@ -12,7 +12,7 @@ import { ExpensesFacade } from '../../store/expense/expense.facade';
   styleUrls: ['./expense.component.sass'],
 })
 export class ExpenseComponent implements OnDestroy {
-  private isCreation: boolean;
+  isCreation: boolean;
   defaultExpense: Expense = defaultExpense;
   selectedExpense: Subject<Expense> = new Subject<Expense>();
   // Subject to track component destruction
@@ -60,7 +60,6 @@ export class ExpenseComponent implements OnDestroy {
     if (limit !== this.limit$.getValue()) {
       // Update limit and reset page when limit changes
       this.limit$.next(limit);
-      this.page$.next(0);
     } else {
       // Update page when page index changes
       this.page$.next(page);
