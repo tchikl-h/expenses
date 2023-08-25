@@ -1,9 +1,5 @@
 <div class="custom-paginator" *ngIf="pageSize !== null && pageIndex !== null">
-  <select
-    [value]="pageSize"
-    (change)="onPageChange(pageSize, 0)"
-    class="page-size-select"
-  >
+  <select (change)="onSelectChange($event)" class="page-size-select">
     <option
       *ngFor="let pageSizeOption of pageSizeOptions"
       [value]="pageSizeOption"
@@ -21,11 +17,11 @@
   </button>
 
   <span class="page-indicator">
-    Page {{ pageIndex + 1 }} of {{ lastPage + 1 }}
+    Page {{ pageIndex + 1 }} of {{ getLastPage() + 1 }}
   </span>
 
   <button
-    [disabled]="pageIndex === lastPage"
+    [disabled]="pageIndex === getLastPage()"
     (click)="onPageChange(pageSize, pageIndex + 1)"
     class="pagination-button"
   >

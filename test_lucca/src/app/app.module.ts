@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 import { ExpenseListSkeletonComponent } from './components/expense/expense-list/expense-list-skeleton/expense-list-skeleton.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ExpensesFacade } from './store/expense/expense.facade';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ModalComponent } from './components/modal/modal.component';
       traceLimit: 75,
     }),
     DatePipe,
+    ExpensesFacade,
   ],
   bootstrap: [AppComponent],
 })

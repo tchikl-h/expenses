@@ -13,8 +13,13 @@ export class PaginatorComponent {
   @Output() handlePageChange: EventEmitter<{ limit: number; page: number }> =
     new EventEmitter();
 
-  get lastPage(): number {
+  getLastPage(): number {
     return Math.ceil((this.length || 0) / (this.pageSize || 1)) - 1;
+  }
+
+  onSelectChange(event: Event) {
+    const selectedLimit = parseInt((event.target as HTMLSelectElement).value);
+    this.onPageChange(selectedLimit, 0);
   }
 
   onPageChange(limit: number, page: number): void {

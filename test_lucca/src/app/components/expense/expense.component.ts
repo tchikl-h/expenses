@@ -1,12 +1,11 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Expense } from 'src/app/models/expense';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
-import { ExpensesFacade, selectTotalExpenses } from '../../store/expenses';
-import { selectExpenses } from '../../store/expenses';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ModalService } from 'src/app/services/modal.service';
 import { defaultExpense } from 'src/app/shared/constants';
+import { ExpensesFacade } from '../../store/expense/expense.facade';
 
 @Component({
   selector: 'app-expense',
@@ -19,13 +18,14 @@ export class ExpenseComponent implements OnDestroy {
   selectedExpense: Subject<Expense> = new Subject<Expense>();
   // Subject to track component destruction
   destroyed = new Subject();
+  // private expensesFacade: ExpensesFacade;
 
   // Using Angular's inject function to access ExpensesFacade
-  private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
+  // private readonly expensesFacade: ExpensesFacade = inject(ExpensesFacade);
 
   // Behavior subjects for page and limit
   page$: BehaviorSubject<number> = new BehaviorSubject(0);
-  limit$: BehaviorSubject<number> = new BehaviorSubject(10);
+  limit$: BehaviorSubject<number> = new BehaviorSubject(5);
 
   // Observable for expenses and totalExpenses
   expenses$: Observable<Expense[]>;
@@ -38,7 +38,12 @@ export class ExpenseComponent implements OnDestroy {
     })
   );
 
-  constructor(private store: Store, private modalService: ModalService) {
+  constructor(
+    private store: Store,
+    private modalService: ModalService,
+    private expensesFacade: ExpensesFacade
+  ) {
+    // this.expensesFacade = new ExpensesFacade(expensesService);
     // Subscribe to pageAndLimit$ observable to fetch expenses
     this.pageAndLimit$
       .pipe(takeUntil(this.destroyed))
@@ -47,8 +52,8 @@ export class ExpenseComponent implements OnDestroy {
       });
 
     // Selecting expenses and totalExpenses from store
-    this.expenses$ = this.store.select(selectExpenses);
-    this.totalExpenses$ = this.store.select(selectTotalExpenses);
+    this.expenses$ = this.expensesFacade.expenses$;
+    this.totalExpenses$ = this.expensesFacade.totalExpenses$;
   }
 
   ngOnDestroy(): void {

@@ -23,10 +23,10 @@ export class ExpensesService {
     );
   }
 
-  updateExpense(changes: Expense): Observable<Expense> {
+  updateExpense(expense: Expense): Observable<Expense> {
     return this.http.put<Expense>(
-      `${this.apiUrl}/${this.expenseKey}/${changes.id}`,
-      changes,
+      `${this.apiUrl}/${this.expenseKey}/${expense.id}`,
+      expense,
       {
         headers: this.headers,
       }
