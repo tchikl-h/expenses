@@ -66,6 +66,7 @@ export class ExpenseComponent implements OnDestroy {
     if (limit !== this.limit$.getValue()) {
       // Update limit and reset page when limit changes
       this.limit$.next(limit);
+      this.page$.next(0);
     } else {
       // Update page when page index changes
       this.page$.next(page);
