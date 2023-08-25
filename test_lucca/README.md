@@ -1,10 +1,19 @@
 # TestLucca
 
+## Bonus
+
+- Accessibility (everything is reachable only with keyboard, aria-label added on elements)
+- Responsive (mobile format)
+- Git-cz (unified commit names)
+- Husky (pre-commit hooks)
+- Dotenv (environment variables in a specific file)
+- Skeleton for expense-list
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
