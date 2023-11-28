@@ -1,5 +1,5 @@
 {
-  "name": "test-lucca",
+  "name": "expenses",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -48,7 +48,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./test_lucca/node_modules/git-cz"
+      "path": "./expenses/node_modules/git-cz"
     }
   },
   "husky": {

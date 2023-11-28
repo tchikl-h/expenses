@@ -1,4 +1,20 @@
-# Test front Lucca
+# Test front
+
+## Prérequis
+Node 16.14.0^
+npm 8.3.1^
+
+## Lancement du projet
+Tout d'abord, lancez l'API (mock)
+```
+cd db && npm install && npm run api
+```
+
+Ensuite, lancez le projet Expenses :
+```
+cd expenses && npm install && npm run start
+```
+Naviguez sur http://localhost:4200/
 
 ## But de l'exercice
 
@@ -58,13 +74,30 @@ puis
 
 - paramètres : page (nombre), limit (nombre)
 - réponse (exemple) :
+
 ```json
 {
-    "items": [
-        {"id":50,"nature":"trip","amount":965,"comment":"Enim maioren.","purchasedOn":"2022-05-12","updatedAt":"2022-11-16T00:09:12.057Z","distance":988},
-        {"id":42,"nature":"restaurant","amount":846,"comment":"Excepturi blanditiis at est sapiente tenetur ipsum sunt voluptate, vp.","purchasedOn":"2022-08-08","updatedAt":"2022-10-21T06:25:59.492Z","invites":2}
-    ],
-    "count": 34
+  "items": [
+    {
+      "id": 50,
+      "nature": "trip",
+      "amount": 965,
+      "comment": "Enim maioren.",
+      "purchasedOn": "2022-05-12",
+      "updatedAt": "2022-11-16T00:09:12.057Z",
+      "distance": 988
+    },
+    {
+      "id": 42,
+      "nature": "restaurant",
+      "amount": 846,
+      "comment": "Excepturi blanditiis at est sapiente tenetur ipsum sunt voluptate, vp.",
+      "purchasedOn": "2022-08-08",
+      "updatedAt": "2022-10-21T06:25:59.492Z",
+      "invites": 2
+    }
+  ],
+  "count": 34
 }
 ```
 
@@ -72,22 +105,46 @@ puis
 
 - paramètres : aucun
 - réponse (exemple) :
+
 ```json
-{"id":50,"nature":"trip","amount":965,"comment":"Enim maioren.","purchasedOn":"2022-05-12","updatedAt":"2022-11-16T00:09:12.057Z","distance":988}
+{
+  "id": 50,
+  "nature": "trip",
+  "amount": 965,
+  "comment": "Enim maioren.",
+  "purchasedOn": "2022-05-12",
+  "updatedAt": "2022-11-16T00:09:12.057Z",
+  "distance": 988
+}
 ```
 
 ### POST /expenses
 
 - paramètres : aucun
 - payload (exemple) :
+
 ```json
-{"nature":"trip","amount":965,"comment":"Enim maioren.","purchasedOn":"2022-05-12","distance":988}
+{
+  "nature": "trip",
+  "amount": 965,
+  "comment": "Enim maioren.",
+  "purchasedOn": "2022-05-12",
+  "distance": 988
+}
 ```
 
 ### PUT /expenses/{id}
+
 - paramètres : aucun
 - payload (exemple) :
-```json
-{"id": 50,"nature":"trip","amount":965,"comment":"Enim maioren.","purchasedOn":"2022-05-12","distance":988}
-```
 
+```json
+{
+  "id": 50,
+  "nature": "trip",
+  "amount": 965,
+  "comment": "Enim maioren.",
+  "purchasedOn": "2022-05-12",
+  "distance": 988
+}
+```
